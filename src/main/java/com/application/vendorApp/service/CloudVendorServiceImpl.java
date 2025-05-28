@@ -1,5 +1,6 @@
 package com.application.vendorApp.service;
 
+import com.application.vendorApp.exception.CloudVendorNotFoundException;
 import com.application.vendorApp.model.CloudVendor;
 import com.application.vendorApp.repo.CloudVendorRepository;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,8 @@ public class CloudVendorServiceImpl implements CloudVendorService{
 
     @Override
     public CloudVendor getCloudVendor(String vendorId) {
+        if (cloudVendorRepository.findById(vendorId).isEmpty())
+            throw new CloudVendorNotFoundException("Requested Cloud vendor Does not exit.");
         return cloudVendorRepository.findById(vendorId).get();
     }
 
