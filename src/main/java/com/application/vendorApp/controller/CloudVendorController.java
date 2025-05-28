@@ -1,7 +1,10 @@
 package com.application.vendorApp.controller;
 
 import com.application.vendorApp.model.CloudVendor;
+import com.application.vendorApp.response.ResponseHandler;
 import com.application.vendorApp.service.CloudVendorService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,13 +21,14 @@ public class CloudVendorController {
 
     @PostMapping("/add")
     public String createCloudVendor(@RequestBody CloudVendor cloudVendor){
+        System.out.println("testtest1234: " + cloudVendor);
         cloudVendorService.createCloudVendor(cloudVendor);
         return "Vendor Created Successfully";
     }
 
     @GetMapping("/{vendorId}")
-    public CloudVendor getCloudvendor(@PathVariable String vendorId){
-        return cloudVendorService.getCloudVendor(vendorId);
+    public ResponseEntity<?> getCloudvendor(@PathVariable("vendorId") String vendorId){
+        return ResponseHandler.responseBuilder("Requested vendor details are here", HttpStatus.OK, cloudVendorService.getCloudVendor(vendorId));
     }
 
     @GetMapping("/getAll")
